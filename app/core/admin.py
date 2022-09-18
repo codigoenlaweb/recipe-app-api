@@ -55,3 +55,9 @@ class TagAdmin(admin.ModelAdmin):
     '''Admin View for Tag'''
     # ordering = ['id']
     list_display = ['name']
+
+@admin.register(models.Ingredient)
+class IngredientAdmin(admin.ModelAdmin):
+    '''Admin View for Ingredient'''
+    # ordering = ['id']
+    list_display = ['name']
