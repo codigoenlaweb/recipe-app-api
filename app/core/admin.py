@@ -41,3 +41,17 @@ class UserAdmin(BaseUserAdmin):
         }),
     )
     readonly_fields = ['last_login']
+
+
+@admin.register(models.Recipe)
+class RecipeAdmin(admin.ModelAdmin):
+    '''Admin View for Recipe'''
+    # ordering = ['id']
+    list_display = ['title', 'time_minutes', 'price', 'description', 'link']
+
+
+@admin.register(models.Tag)
+class TagAdmin(admin.ModelAdmin):
+    '''Admin View for Tag'''
+    # ordering = ['id']
+    list_display = ['name']

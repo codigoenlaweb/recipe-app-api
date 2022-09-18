@@ -27,7 +27,6 @@ class UserSerializers(serializers.ModelSerializer):
         """
         create and return a user with encryted password
         """
-        print('----miraaaa serializer----')
         return get_user_model().objects.create_user(**validated_data)
 
     def update(self, instance, validated_data):
