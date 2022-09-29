@@ -16,14 +16,16 @@ class ModelsTests(TestCase):
         email = "test@test.com"
         passw = "password1234"
 
-        user = get_user_model().objects.create_user(email=email, password=passw)
+        user = get_user_model().objects.create_user(
+            email=email, password=passw
+        )
 
         self.assertEqual(email, user.email)
         self.assertTrue(user.check_password(passw))
 
     def test_new_user_with_blank_email(self):
         """
-        Test creating a new user with blank email ("") and gerete a raises error
+        Test creating a new user with blank email("") and gerete a raises error
         """
 
         with self.assertRaises(ValueError):
@@ -46,15 +48,17 @@ class ModelsTests(TestCase):
         Test creating a recipe is succefull
         """
         user = get_user_model().objects.create_user(
-            email="test@test.com", password="password1234", full_name="test test"
+            email="test@test.com",
+            password="password1234",
+            full_name="test test"
         )
 
         recipe = models.Recipe.objects.create(
             user=user,
-            title='Sample recipe name',
+            title="Sample recipe name",
             time_minutes=5,
-            price=Decimal('5.50'),
-            description='Sample recipe description'
+            price=Decimal("5.50"),
+            description="Sample recipe description",
         )
 
         self.assertEqual(str(recipe), recipe.title)
@@ -64,33 +68,34 @@ class ModelsTests(TestCase):
         Test creating a tag is succefull
         """
         user = get_user_model().objects.create_user(
-            email="test@test.com", password="password1234", full_name="test test"
+            email="test@test.com",
+            password="password1234",
+            full_name="test test"
         )
 
-        tag = models.Tag.objects.create(
-            user=user,
-            name='Tag1'
-        )
+        tag = models.Tag.objects.create(user=user, name="Tag1")
 
         self.assertEqual(str(tag), tag.name)
 
     def test_create_ingredient(self):
         """Test creating an ingredient is successful."""
         user = get_user_model().objects.create_user(
-            email="test@test.com", password="password1234", full_name="test test"
+            email="test@test.com",
+            password="password1234",
+            full_name="test test"
         )
         ingredient = models.Ingredient.objects.create(
             user=user,
-            name='Ingredient1'
+            name="Ingredient1"
         )
 
         self.assertEqual(str(ingredient), ingredient.name)
 
-    @patch('core.models.uuid.uuid4')
+    @patch("core.models.uuid.uuid4")
     def test_recipe_file_name_uuid(self, mock_uuid):
         """Test generating image path."""
-        uuid = 'test-uuid'
+        uuid = "test-uuid"
         mock_uuid.return_value = uuid
-        file_path = models.recipe_image_file_path(None, 'example.jpg')
+        file_path = models.recipe_image_file_path(None, "example.jpg")
 
-        self.assertEqual(file_path, f'uploads/recipe/{uuid}.jpg')
+        self.assertEqual(file_path, f"uploads/recipe/{uuid}.jpg")

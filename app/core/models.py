@@ -10,12 +10,17 @@ from core.managers import UserManager
 def recipe_image_file_path(instance, filename):
     """Generate file path for new recipe image."""
     ext = os.path.splitext(filename)[1]
-    filename = f'{uuid.uuid4()}{ext}'
+    filename = f"{uuid.uuid4()}{ext}"
 
-    return os.path.join('uploads', 'recipe', filename)
+    return os.path.join("uploads", "recipe", filename)
+
 
 class User(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(verbose_name="email", max_length=250, unique=True)
+    email = models.EmailField(
+        verbose_name="email",
+        max_length=250,
+        unique=True
+    )
     full_name = models.CharField(verbose_name="full name", max_length=250)
     is_active = models.BooleanField(verbose_name="is active", default=True)
     is_staff = models.BooleanField(verbose_name="is staff", default=False)
@@ -30,14 +35,24 @@ class Recipe(models.Model):
     """
 
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="recipes"
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="recipes"
     )
     title = models.CharField(verbose_name="Title", max_length=100)
     time_minutes = models.IntegerField(verbose_name="Time minutes")
-    price = models.DecimalField(verbose_name="Price", max_digits=6, decimal_places=2)
+    price = models.DecimalField(
+        verbose_name="Price",
+        max_digits=6,
+        decimal_places=2
+    )
     description = models.TextField(verbose_name="Description", blank=True)
     link = models.CharField("Link", max_length=255, blank=True)
-    tags = models.ManyToManyField("Tag", verbose_name="Tags", related_name="recipes")
+    tags = models.ManyToManyField(
+        "Tag",
+        verbose_name="Tags",
+        related_name="recipes"
+    )
     ingredients = models.ManyToManyField("Ingredient", related_name="recipes")
     image = models.ImageField(null=True, upload_to=recipe_image_file_path)
 
